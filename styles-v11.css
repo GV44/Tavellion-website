@@ -1,0 +1,85 @@
+/* v11 — Tavellion homepage overrides. Loads AFTER styles.css.
+   - Real Avellion app screenshot as the hero.
+   - Custom narrative card icons (inline SVG in index.html).
+   - Building diagram: data-packet flow animation.
+   - 10/80/10 bar: gradient, sheen, subtle texture. */
+
+/* ---- palette (real Avellion app, from avellion-app/desktop.html) ---- */
+:root{
+  --abyss:#0b141a; --hull:#11202a; --keel:#17303e; --edge:#22404f;
+  --signal:#eef4f2; --ballast:#8fa6ad; --pressure:#5c747d;
+  --abird:#38b6ff; --bird-deep:#1d7fe0; --teal:#39a6a3;
+  --gold:#c9a227; --green:#3fb98a; --red:#d05a4e;
+}
+
+/* =====================================================================
+   REAL APP SCREENSHOT (hero)
+   ===================================================================== */
+.app-shot{
+  position:relative;
+  border:1px solid var(--edge);
+  border-radius:16px;
+  overflow:hidden;
+  background:#0b141a;
+  box-shadow:0 40px 80px -24px rgba(0,0,0,.72),0 0 0 1px rgba(56,182,255,.05),0 0 60px -12px rgba(56,182,255,.2);
+}
+.app-shot img{display:block;width:100%;height:auto}
+.app-shot-cap{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:11px 15px;border-top:1px solid var(--edge);
+  background:linear-gradient(180deg,#0e1c24,#0b141a);
+  font-size:11.5px;color:var(--ballast);
+}
+.app-shot-cap .live{
+  font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--green);
+  display:inline-flex;align-items:center;gap:6px;flex:0 0 auto;
+}
+.app-shot-cap .live i{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:avpulse 2.4s infinite}
+.app-shot-cap span:last-child{color:var(--pressure)}
+@keyframes avpulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* =====================================================================
+   CUSTOM NARRATIVE ICONS
+   ===================================================================== */
+.card .ic .nic{width:34px;height:34px}
+
+/* =====================================================================
+   BUILDING DIAGRAM — data packets flowing along the connections
+   ===================================================================== */
+.pk{fill:#aef0ff;opacity:0}
+.d1 .pk{animation-delay:-.4s}
+.d2 .pk{animation-delay:-.8s}
+.d3 .pk{animation-delay:-1.2s}
+.d4 .pk{animation-delay:-1.6s}
+.d5 .pk{animation-delay:-2s}
+@keyframes pkflow{
+  0%{opacity:0;transform:translateX(0)}
+  7%{opacity:1}
+  82%{opacity:1}
+  100%{opacity:0;transform:translateX(var(--dx,60px))}
+}
+@keyframes pkflowY{
+  0%{opacity:0;transform:translateY(0)}
+  7%{opacity:1}
+  82%{opacity:1}
+  100%{opacity:0;transform:translateY(var(--dy,44px))}
+}
+
+/* =====================================================================
+   10/80/10 — richer bar
+   ===================================================================== */
+.share .s80{background:linear-gradient(120deg,#5fc8f2,#1F9CE0 55%,#0f7cc0);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -14px 26px rgba(0,0,0,.12)}
+.share .s80::before{
+  content:"";position:absolute;inset:0;
+  background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.06) 0 9px,transparent 9px 22px);
+  opacity:.7;pointer-events:none;
+}
+.share .s80 .num{filter:drop-shadow(0 3px 10px rgba(0,0,0,.28))}
+
+/* =====================================================================
+   RESPONSIVE
+   ===================================================================== */
+@media (prefers-reduced-motion:reduce){
+  .pk{animation:none!important;opacity:.6;transform:none!important}
+  .share::after{animation:none}
+}
