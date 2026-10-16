@@ -228,7 +228,6 @@
         </div>
       </div>
     </div>
-    </div>
   </div>
 </section>
 
@@ -248,19 +247,16 @@
   </div>
 </section>
 
-<!-- MEET AVELLION (custom narrative icons) -->
-<section class="alt">
-  <div class="wrap grid grid-2" style="gap:48px;align-items:start">
-    <div>
+<!-- MEET AVELLION (custom narrative icons + listening widget + stack marquee) -->
+<section class="alt meet-sec">
+  <canvas class="meet-net" id="meetNet" aria-hidden="true"></canvas>
+  <div class="wrap">
+    <div class="meet-head">
       <div class="kicker"><span class="num">04 ·</span> Meet Avellion</div>
-      <h2 style="margin-bottom:18px">One Assistant that takes the everyday off your plate.</h2>
+      <h2 class="meet-h2">One Assistant that takes the <span class="acc">everyday</span> off your plate.</h2>
       <p class="lede">Avellion plugs into the systems you already run — chat, email, files, CRM — and works on the tasks that eat your day. It remembers context, follows your processes, and answers from your own data.</p>
-      <div class="btn-row" style="margin-top:28px">
-        <a class="btn btn-primary" href="avellion.html">See what Avellion does</a>
-        <a class="btn btn-ghost" href="solutions.html">Explore solutions</a>
-      </div>
     </div>
-    <div class="grid grid-2">
+    <div class="grid grid-4">
       <div class="card reveal">
         <div class="ic">
           <svg viewBox="0 0 48 48" fill="none" class="nic">
@@ -314,6 +310,18 @@
         <h3>Keeps going when you don't</h3>
         <p>Available 24/7/365. The work keeps moving when the team doesn't, and it asks before anything leaves the building.</p>
       </div>
+        </div>
+    <div class="stack-strip">
+      <span class="strip-label">Lives in your stack</span>
+      <div class="strip-view"><div class="strip-track" id="stripTrack"></div></div>
+    </div>
+  </div>
+  <div class="listen-widget" id="listenWidget">
+    <div class="lw-head"><span class="lw-dot"></span><span class="lw-title">Avellion · Listening</span><span class="lw-live">Live</span></div>
+    <div class="lw-text"><span id="lwType">Pull last month's expenses</span><span class="lw-caret"></span></div>
+    <div class="lw-foot">
+      <span class="lw-modes"><i data-mode="voice" class="on"></i><i data-mode="text"></i><i data-mode="data"></i></span>
+      <span class="lw-footr" id="lwModes">Voice · Text · Data</span>
     </div>
   </div>
 </section>

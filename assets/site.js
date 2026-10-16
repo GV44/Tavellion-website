@@ -156,3 +156,127 @@
     });
   }
 })();
+
+/* ---- MEET AVELLION: constellation · typewriter widget · mode cycle · stack marquee ---- */
+(function () {
+  if (!document.getElementById('listenWidget')) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* reveal the listening widget when the section is on screen */
+  var sec = document.querySelector('.meet-sec');
+  if (sec) {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { sec.classList.add('in'); } });
+      }, { threshold: 0.15 }).observe(sec);
+    } else { sec.classList.add('in'); }
+  }
+
+  /* stack marquee (duplicate content for seamless loop) */
+  var track = document.getElementById('stripTrack');
+  if (track) {
+    var items = ['Google','CRM','SharePoint','SAP','Email','Slack','Drive','Asana','Jira','Teams','Outlook','Files'];
+    var half = '';
+    items.forEach(function (it, i) {
+      half += '<span class="item' + (it === 'CRM' ? ' hot' : '') + '">' + it + '</span><span class="sep">&#183;</span>';
+    });
+    track.innerHTML = half + half;
+  }
+
+  /* typewriter widget */
+  var typeEl = document.getElementById('lwType');
+  var modesEl = document.getElementById('lwModes');
+  var bars = Array.prototype.slice.call(document.querySelectorAll('.lw-modes i'));
+  var prompts = [
+    'Pull last month\'s expenses',
+    'Draft the follow-up for the overdue accounts',
+    'Summarize open tickets for the standup',
+    'Prepare the client proposal from the rate card'
+  ];
+  var modeNames = ['Voice', 'Text', 'Data'];
+  if (typeEl) {
+    if (reduced) { typeEl.textContent = prompts[0]; }
+    else {
+      var pi = 0, ci = 0, deleting = false, mi = 0;
+      (function tick () {
+        var full = prompts[pi];
+        if (!deleting) {
+          ci++;
+          if (ci >= full.length) { ci = full.length; deleting = true; }
+          typeEl.textContent = full.slice(0, ci);
+          setTimeout(tick, 46 + Math.random() * 40);
+        } else {
+          setTimeout(function () {
+            ci -= 3;
+            if (ci <= 0) {
+              ci = 0; deleting = false;
+              pi = (pi + 1) % prompts.length;
+              mi = (mi + 1) % modeNames.length;
+              setMode(mi);
+            }
+            typeEl.textContent = full.slice(0, Math.max(ci, 0));
+            tick();
+          }, 26);
+        }
+      })();
+    }
+    function setMode (i) {
+      bars.forEach(function (b, j) { b.classList.toggle('on', j === i); });
+      modesEl.innerHTML = modeNames.map(function (n, j) { return j === i ? '<b>' + n + '</b>' : n; }).join(' &middot; ');
+    }
+  }
+
+  /* constellation canvas */
+  var cv = document.getElementById('meetNet');
+  if (cv && !reduced && cv.getContext) {
+    var ctx = cv.getContext('2d');
+    var nodes = [], W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var LINK = 130, visible = false;
+    function resize () {
+      var r = cv.getBoundingClientRect();
+      W = r.width; H = r.height;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+    }
+    function seed () {
+      nodes = [];
+      var n = Math.round((W * H) / 26000);
+      for (var i = 0; i < n; i++) {
+        nodes.push({
+          x: Math.random() * W, y: Math.random() * H,
+          vx: (Math.random() - .5) * .18, vy: (Math.random() - .5) * .18,
+          r: Math.random() * 1.6 + .6
+        });
+      }
+    }
+    function frame () {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < nodes.length; i++) {
+        var a = nodes[i];
+        a.x += a.vx; a.y += a.vy;
+        if (a.x < 0 || a.x > W) a.vx *= -1;
+        if (a.y < 0 || a.y > H) a.vy *= -1;
+        for (var j = i + 1; j < nodes.length; j++) {
+          var b = nodes[j];
+          var dx = a.x - b.x, dy = a.y - b.y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < LINK * LINK) {
+            var o = (1 - Math.sqrt(d2) / LINK) * .35;
+            ctx.strokeStyle = 'rgba(31,156,224,' + o.toFixed(3) + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+        ctx.fillStyle = 'rgba(31,156,224,.5)';
+        ctx.beginPath(); ctx.arc(a.x, a.y, a.r, 0, 6.283); ctx.fill();
+      }
+      requestAnimationFrame(frame);
+    }
+    function start () { if (!visible) { visible = true; resize(); requestAnimationFrame(frame); } }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { es.forEach(function (e) { e.isIntersecting ? start() : (visible = false); }); }, { threshold: 0.05 }).observe(cv);
+    } else start();
+    window.addEventListener('resize', resize, { passive: true });
+  }
+})();
