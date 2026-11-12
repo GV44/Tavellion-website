@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark-theme">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -424,6 +424,52 @@ footer{background:var(--deep);color:#9fb8c7;padding:72px 0 40px}
   #globe{display:none}
   .m-track{animation:none}
 }
+
+/* ================================================================
+   DARK THEME  (scoped under html.dark-theme)
+   Adds a full dark mode without touching the light rules above.
+   To use on the light page, add class="dark-theme" to <html>.
+   ================================================================ */
+html.dark-theme{
+  --acc:#3FB6EF; --acc-2:#62c6f2; --acc-3:#79d2fb;
+  --navy:#eef4f2;                 /* heading/brand/nav text -> light */
+  --ink:#eef4f2;                  /* body text */
+  --mut:#9fb8c7;                  /* muted text */
+  --soft:#8496a1;                 /* dim text (reads on dark) */
+  --paper:#0b1622;                /* main bg  (was #fff) */
+  --bg:#0c1a26;                   /* alt bg   (was #f6fafd) */
+  --bg2:#0e1f2d;                  /* solutions/marquee bg (was #eef5fa) */
+  --rule:#1b3244;                 /* hairline border */
+  --rule2:#244054;                /* stronger border */
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 14px 34px rgba(0,0,0,.5);
+  --shadow-lift:0 2px 6px rgba(0,0,0,.5),0 26px 54px rgba(0,0,0,.6);
+}
+/* buttons: keep primary blue; fix text/bgs that were tuned for light */
+html.dark-theme .btn-primary{color:#06141f}
+html.dark-theme .btn-primary:hover{color:#06141f}
+html.dark-theme .btn-ghost{background:#13283a;border-color:var(--rule2);color:#eef4f2}
+html.dark-theme .btn-ghost:hover{color:var(--acc-2)}
+html.dark-theme .btn-white{background:#eef4f2;border-color:#eef4f2;color:#0b1622}
+/* step number chip: --navy is now light, so pin it back to a dark fill */
+html.dark-theme .step .n{background:#13324a}
+/* hero (was a light gradient) */
+html.dark-theme .hero{background:
+  radial-gradient(1100px 620px at 88% -8%,rgba(63,182,239,.16),transparent 60%),
+  radial-gradient(800px 500px at -6% 120%,rgba(57,166,163,.12),transparent 55%),
+  linear-gradient(180deg,#0a1622 0%,#0c1c2a 100%)}
+html.dark-theme .badge{background:#112536;box-shadow:0 2px 10px rgba(0,0,0,.35)}
+html.dark-theme .float-card{background:#112536}
+/* surface cards (were #fff) */
+html.dark-theme .card{background:#122636;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+html.dark-theme .share{background:#122636}
+html.dark-theme .step{background:#122636;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+html.dark-theme .sol{background:#122636}
+/* light-gradient sections */
+html.dark-theme .meet{background:linear-gradient(180deg,#0b1a27,#0d2030)}
+html.dark-theme .marquee{background:#0b1622}
+html.dark-theme .mobile-nav{background:#0b1622}
+/* sticky nav glass (was white) */
+html.dark-theme .site.solid{background:rgba(9,20,31,.82);box-shadow:0 1px 0 var(--rule)}
 </style>
 </head>
 <body>
